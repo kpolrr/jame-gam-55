@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] KeyCode right;
     
     [SerializeField] KeyCode left;
-
     [SerializeField] KeyCode down;
     [SerializeField] Vector2 OverlapBoxSize;
 
@@ -36,6 +35,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(jumpForce*Vector2.up,ForceMode2D.Impulse);
         }
 
+
         if (Input.GetKeyUp(jump) && rb.velocity.y>0f)
         {
             rb.velocity = new Vector2(rb.velocity.x,rb.velocity.y*jumpCut);
@@ -54,13 +54,17 @@ public class PlayerController : MonoBehaviour
         }
 
         float currentspeed = rb.velocity.x;
-        float calculatedVelocity;
-        if (targetSpeed == 0) {
+        float calculatedVelocity = currentspeed;
+        if (targetSpeed == 0) { //deccelerate if you are not trying to move
             calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,decceleration);
-        } else if (Mathf.Abs(targetSpeed) > Mathf.Abs(currentspeed)) {
-            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration);
-        } else {
-            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration);
+        } else if (Mathf.Sign(targetSpeed) != Mathf.Sign(currentspeed) && currentspeed != 0) { //if you are trying to move in the direction opposite to which you are moving
+            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,decceleration); //deccelerate quickly
+        } else if (Mathf.Abs(targetSpeed) > Mathf.Abs(currentspeed)) { // going in desired direction but havent reached max speed yet
+            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration); //accelerate
+        } else if (isGrounded) { //if grounded and over max speed (can't accelerate more)
+            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration); //deccelerate slowly (at the pace of acceleration)
+        } else { //if in air and going desired direction
+            Debug.Log(currentspeed);
         }
         rb.velocity = new Vector2(calculatedVelocity,rb.velocity.y);
     }

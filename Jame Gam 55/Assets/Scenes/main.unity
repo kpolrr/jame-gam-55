@@ -341,6 +341,7 @@ MonoBehaviour:
   decceleration: 0.5
   right: 100
   left: 97
+  push: 112
   down: 115
   OverlapBoxSize: {x: 0.7, y: 0.2}
   Ground:
