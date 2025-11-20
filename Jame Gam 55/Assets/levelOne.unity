@@ -5058,11 +5058,12 @@ MonoBehaviour:
   jumpForce: 16
   acceleration: 0.15
   aircontrol: 0.5
+  passiveAirDecceleration: 0.03
   decceleration: 0.4
   right: 100
   left: 97
   down: 115
-  OverlapBoxSize: {x: 0.7, y: 0.2}
+  OverlapBoxSize: {x: 0.7, y: 0.1}
   Ground:
     serializedVersion: 2
     m_Bits: 64

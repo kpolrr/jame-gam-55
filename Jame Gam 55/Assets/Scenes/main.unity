@@ -355,7 +355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   jumpCut: 0.35
-  jumpForce: 14
+  jumpForce: 16
   acceleration: 0.15
   aircontrol: 0.5
   passiveAirDecceleration: 0.03
