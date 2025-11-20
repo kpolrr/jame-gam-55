@@ -337,8 +337,9 @@ MonoBehaviour:
   movementSpeed: 10
   jumpCut: 0.35
   jumpForce: 14
-  acceleration: 0.2
-  decceleration: 0.5
+  acceleration: 0.15
+  aircontrol: 0.5
+  decceleration: 0.4
   right: 100
   left: 97
   down: 115

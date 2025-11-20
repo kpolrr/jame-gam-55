@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] float acceleration;
     
+    [SerializeField] float aircontrol;
     [SerializeField] float decceleration;
     [SerializeField] KeyCode right;
     
@@ -55,12 +56,13 @@ public class PlayerController : MonoBehaviour
 
         float currentspeed = rb.velocity.x;
         float calculatedVelocity = currentspeed;
+        float airAccel = (isGrounded) ? 1f:aircontrol;
         if (targetSpeed == 0) { //deccelerate if you are not trying to move
-            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,decceleration);
+            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,decceleration*airAccel);
         } else if (Mathf.Sign(targetSpeed) != Mathf.Sign(currentspeed) && currentspeed != 0) { //if you are trying to move in the direction opposite to which you are moving
-            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,decceleration); //deccelerate quickly
+            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,decceleration*airAccel); //deccelerate quickly
         } else if (Mathf.Abs(targetSpeed) > Mathf.Abs(currentspeed)) { // going in desired direction but havent reached max speed yet
-            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration); //accelerate
+            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration*airAccel); //accelerate
         } else if (isGrounded) { //if grounded and over max speed (can't accelerate more)
             calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration); //deccelerate slowly (at the pace of acceleration)
         } else { //if in air and going desired direction
