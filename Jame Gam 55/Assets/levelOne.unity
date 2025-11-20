@@ -5058,7 +5058,7 @@ MonoBehaviour:
   jumpForce: 16
   acceleration: 0.15
   aircontrol: 0.5
-  passiveAirDecceleration: 0.03
+  passiveAirDecceleration: 0.06
   decceleration: 0.4
   right: 100
   left: 97
