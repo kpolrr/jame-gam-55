@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x,rb.velocity.y*jumpCut);
             _jumpCutAvailable = false;
         }
-        if (isGrounded) _jumpCutAvailable = false;
+        //if (isGrounded) _jumpCutAvailable = false;
     }
     void FixedUpdate()
     {
