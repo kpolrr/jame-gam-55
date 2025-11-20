@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 690666075}
   - component: {fileID: 690666074}
   - component: {fileID: 690666077}
+  - component: {fileID: 690666078}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -235,6 +236,24 @@ MonoBehaviour:
   m_CropFrameX: 1
   m_CropFrameY: 1
   m_StretchFill: 0
+--- !u!114 &690666078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690666073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 924f2e86cb1e769c3b376c8102493e50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 1028263273}
+  SmoothingSpeed: 0.8
+  SmoothingEnabled: 0
+  ZOffset: -10
+  TopLeftCorner: {x: -5, y: 5}
+  BottomRightCorner: {x: 5, y: -5}
 --- !u!1 &1028263271
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +362,7 @@ MonoBehaviour:
   right: 100
   left: 97
   down: 115
-  OverlapBoxSize: {x: 0.7, y: 0.2}
+  OverlapBoxSize: {x: 0.7, y: 0.1}
   Ground:
     serializedVersion: 2
     m_Bits: 64
