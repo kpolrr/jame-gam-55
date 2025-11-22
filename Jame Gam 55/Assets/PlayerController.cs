@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float acceleration;
     
     [SerializeField] float aircontrol;
+    [SerializeField] float coyoteTime;
     [SerializeField] float passiveAirDecceleration;
     [SerializeField] float decceleration;
     [SerializeField] KeyCode right;
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded;
     private bool _jumpCutAvailable;
+    private float _coyoteTimer;
 
     void Start()
     {
@@ -33,9 +35,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         isGrounded = Physics2D.OverlapBox(transform.position-transform.lossyScale.y*0.5f*Vector3.up,OverlapBoxSize,0f,Ground);
-        if (Input.GetKeyDown(jump) && isGrounded)
+        if (isGrounded) _coyoteTimer = coyoteTime;
+        if (Input.GetKeyDown(jump) && _coyoteTimer > 0)
         {
-            rb.AddForce(jumpForce*Vector2.up,ForceMode2D.Impulse);
+            rb.velocity = new Vector2(rb.velocity.x,jumpForce);
+            _coyoteTimer = 0;
             _jumpCutAvailable = true;
         }
 
@@ -46,6 +50,7 @@ public class PlayerController : MonoBehaviour
             _jumpCutAvailable = false;
         }
         //if (isGrounded) _jumpCutAvailable = false;
+        _coyoteTimer -= Time.deltaTime;
     }
     void FixedUpdate()
     {
@@ -63,14 +68,14 @@ public class PlayerController : MonoBehaviour
         float calculatedVelocity = currentspeed;
         float airAccel = (isGrounded) ? 1f:aircontrol;
         if (targetSpeed == 0) { //deccelerate if you are not trying to move AND you are grounded
-            if (isGrounded) {calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,decceleration);}
-            else {calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,passiveAirDecceleration);}
+            if (isGrounded) {calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,decceleration*(60*Time.fixedDeltaTime));}
+            else {calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,passiveAirDecceleration*(60*Time.fixedDeltaTime));}
         } else if (Mathf.Sign(targetSpeed) != Mathf.Sign(currentspeed) && currentspeed != 0) { //if you are trying to move in the direction opposite to which you are moving
-            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,decceleration*airAccel); //deccelerate quickly
+            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,decceleration*airAccel*(60*Time.fixedDeltaTime)); //deccelerate quickly
         } else if (Mathf.Abs(targetSpeed) > Mathf.Abs(currentspeed)) { // going in desired direction but havent reached max speed yet
-            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration*airAccel); //accelerate
+            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration*airAccel*(60*Time.fixedDeltaTime)); //accelerate
         } else if (isGrounded) { //if grounded and over max speed (can't accelerate more)
-            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration); //deccelerate slowly (at the pace of acceleration)
+            calculatedVelocity = Mathf.Lerp(currentspeed,targetSpeed,acceleration*(60*Time.fixedDeltaTime)); //deccelerate slowly (at the pace of acceleration)
         }
         rb.velocity = new Vector2(calculatedVelocity,rb.velocity.y);
     }

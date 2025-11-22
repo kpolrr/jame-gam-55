@@ -229,8 +229,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 547970805}
-  SmoothingSpeed: 0.8
+  SmoothingSpeed: 5
   SmoothingEnabled: 0
+  PixelPerfectPositions: 0
+  PixelsPerUnit: 16
   ZOffset: -10
   TopLeftCorner: {x: -5, y: 33}
   BottomRightCorner: {x: 83, y: -5}
@@ -5058,6 +5060,7 @@ MonoBehaviour:
   jumpForce: 16
   acceleration: 0.15
   aircontrol: 0.5
+  coyoteTime: 0.1
   passiveAirDecceleration: 0.06
   decceleration: 0.4
   right: 100
