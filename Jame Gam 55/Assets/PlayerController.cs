@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     
     private Rigidbody2D rb;
     private bool isGrounded;
-    private bool _jumpCutAvailable;
+    private bool _jumpCutAvailable = false;
     private float _coyoteTimer;
 
     void Start()
@@ -44,11 +44,16 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(jump) && rb.velocity.y>0f && _jumpCutAvailable)
+        if (Input.GetKeyUp(jump))
         {
-            rb.velocity = new Vector2(rb.velocity.x,rb.velocity.y*jumpCut);
+            if (rb.velocity.y>0f && _jumpCutAvailable)
+            {
+                rb.velocity = new Vector2(rb.velocity.x,rb.velocity.y*jumpCut);
+            }
             _jumpCutAvailable = false;
         }
+
+        if (rb.velocity.y < 0.01f) _jumpCutAvailable = false;
         //if (isGrounded) _jumpCutAvailable = false;
         _coyoteTimer -= Time.deltaTime;
     }
@@ -84,6 +89,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.TryGetComponent<jumpPad>(out jumpPad o))
         {
+            _coyoteTimer = 0f;
             _jumpCutAvailable = false;
         }
     } 
