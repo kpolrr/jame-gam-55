@@ -25,7 +25,12 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector2 _smoothedPosition = SmoothingEnabled ? Vector2.Lerp(currentPos,(Vector2)Target.position,SmoothingSpeed*Time.deltaTime) : Target.position;
+        Vector2 targetPos = Target.position;
+        if (PixelPerfectPositions && ppc!= null)
+        {
+            targetPos = ppc.RoundToPixel(targetPos);
+        }
+        Vector2 _smoothedPosition = SmoothingEnabled ? Vector2.Lerp(currentPos,(Vector2)targetPos,SmoothingSpeed*Time.deltaTime) : targetPos;
         currentPos = new Vector2(Mathf.Clamp(_smoothedPosition.x,TopLeftCorner.x,BottomRightCorner.x),Mathf.Clamp(_smoothedPosition.y,BottomRightCorner.y,TopLeftCorner.y));
         if (PixelPerfectPositions && ppc!=null) {
             transform.position = ppc.RoundToPixel(new Vector3(currentPos.x,currentPos.y,ZOffset));
